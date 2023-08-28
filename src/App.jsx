@@ -60,20 +60,51 @@ function App() {
 
           
           
-          <div className='flex flex-col mx-auto bg-red-90 mt-12 space-y-5 bg-red-80'>
+           <div className='flex flex-col mx-auto bg-red-90 mt-12 space-y-5 bg-red-80'>
              <FontAwesomeIcon icon={faList}  className='h-20 mx-auto'/>
 
              <h1 className='mx-auto bg-white lg:w-96 text-center text-xl'>
              You don't have any tasks registered yet.
            Create tasks and organize your to-do items.
              </h1>
-          </div>
+           </div>
 
          
 
      </section>
 
      
+
+
+      <section className='bg-red-900 p-10 flex font-montserrat'>
+
+        <form action="" className='flex mx-auto w-2/3 flex-col bg-yellow-90 space-y-3'>
+
+          <h2>Add task</h2>
+
+     
+          <label htmlFor="">Title</label>
+          <input type="text" />
+
+          <label htmlFor="">Description</label>
+          <textarea name="" id="" cols="30" rows="10" />
+
+          <label htmlFor="">Status</label>
+          <select name="" id="">
+            <option value="">----</option>
+            <option value="">all task</option>
+            <option value="">completed</option>
+
+          </select>
+    
+          <div>
+             <button>Add task</button>
+             button
+          </div>
+
+        </form>
+      </section>
+
 
 
 
