@@ -36,21 +36,20 @@ function App() {
 
 
 
-      <section className='bg-gray-90 lg:p-20 mt-'>
+      <section className='bg-gray-90 lg:p-20 lg:mt-4 mt-10 '>
         
       
-          <div className='flex flex-row lg:w-3/4 lg:mx-auto bg-green-90 justify-center lg:space-x-96'>
+          <div className='flex flex-row lg:w-3/4 mx-auto bg-green-90 w-2/ justify-center lg:space-x-96 space-x-16'>
 
           <div className='flex justify-star bg-yellow-90 flex-row space-x-2'>
-          <h1 className='text-xl'>All task</h1>
-          <p className='py-1 px-3 rounded-full bg-black text-white'>0</p>
+          <h1 className='lg:text-xl lg:mt-0 mt-1'>All task</h1>
+          <p className='py-1 px-3 rounded-full bg-black text-white '>0</p>
           </div>
 
          <div className='flex flex-row justify-end bg-blue-90 ml-9 space-x-4 font-thin'>
-         <h1 className='text-xl ml-96'>completed task</h1>
+         <h1 className='lg:text-xl lg:ml-96 lg:mt-0 mt-1'>completed task</h1>
           <p className='py-1 px-3 rounded-full bg-black text-white'>0</p>
           </div>
-
 
 
            </div>
@@ -60,15 +59,17 @@ function App() {
 
 
           
-          <div className='flex flex-col mx-auto bg-red-90 mt-12 space-y-5'>
+          
+          <div className='flex flex-col mx-auto bg-red-90 mt-12 space-y-5 bg-red-80'>
              <FontAwesomeIcon icon={faList}  className='h-20 mx-auto'/>
 
-             <h1 className='mx-auto bg-white w-96 text-center text-xl'>
+             <h1 className='mx-auto bg-white lg:w-96 text-center text-xl'>
              You don't have any tasks registered yet.
            Create tasks and organize your to-do items.
              </h1>
           </div>
 
+         
 
      </section>
 
