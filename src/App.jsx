@@ -9,8 +9,22 @@ import { faHome, faMusic, faRadio, faVideo, faPerson, faSignIn, faRocket, faList
 
 function App() {
 
+/** for the from submit */
+ function Submit(event) {
+     event.preventDefault()
+ }
+
+
+ const [add, setadd] = React.useState(false)
+
+ function AddClosetask(params) {
+     setadd(prev => !prev)
+ }
+ 
+
+
   return (
-    
+
     <div className='font-montserrat'>
 
       <div className='bg-black lg:p-28 font-montserrat pb-28 p-8'>
@@ -29,7 +43,7 @@ function App() {
        </section>
   
         <section className=''>
-           <button className='bg-white w-48 mx-auto px-2 py-4 text-center absolute left-0 right-0 mt-20 rounded-tl-xl rounded-br-xl shadow-md shadow-gray-900'>opeyemil</button>
+           <button className='bg-white w-48 mx-auto px-2 py-4 text-center absolute left-0 right-0 mt-20 rounded-tl-xl rounded-br-xl shadow-md shadow-gray-900' onClick={AddClosetask}>Add Task</button>
         </section>
 
       </div>
@@ -76,37 +90,49 @@ function App() {
      
 
 
-      <section className='bg-red-900 p-10 flex font-montserrat'>
+      <section className={
+        add ? 'bg-gray-100 p-1 flex font-montserrat lg:w-2/4 mx-auto w-10/12 absolute left-0 right-0 bottom-0 lg:top-40 top-20 lg:h-2/3 hidde rounded-lg shadow-lg z-50 h-3/4' : 'bg-gray-100 p-10 flex font-montserrat w-2/4 mx-auto absolute left-0 right-0 bottom-0 top-40 h-2/3 hidden rounded-lg shadow-lg z-50'
+      }>
 
-        <form action="" className='flex mx-auto w-2/3 flex-col bg-yellow-90 space-y-3'>
+        <form action="" className='flex mx-auto w-2/3 flex-col bg-yellow-90 space-y-3' onSubmit={Submit}>
 
-          <h2>Add task</h2>
+          <h2 className='font-bold'>Add task</h2>
 
      
           <label htmlFor="">Title</label>
-          <input type="text" />
+          <input className='rounded-lg' type="text" />
 
           <label htmlFor="">Description</label>
-          <textarea name="" id="" cols="30" rows="10" />
+          <textarea name="" id="" cols="30" rows="10" className='rounded-lg'/>
 
           <label htmlFor="">Status</label>
-          <select name="" id="">
+          <select name="" id="" className='rounded-lg'>
             <option value="">----</option>
             <option value="">all task</option>
             <option value="">completed</option>
 
           </select>
     
-          <div>
-             <button>Add task</button>
-             button
+
+
+          
+        
+          <div class="flex justify-between bg-whit px-2 py-1 rounded-sm">
+            <button className='text-xl border border-purple-400 border-2 font-bold text-black px-2 py-1 rounded-lg hover:bg-purple-400'>Add task</button>
+            <button className='text-xl bg-blue-400  px-2 py-1 rounded-lg border-2 hover:bg-white' onClick={AddClosetask}>close</button>
+            
           </div>
+
+           
+          
 
         </form>
       </section>
 
 
-
+      <div class={
+        add ? "absolute w-full h-full top-0 left-0 bg-blackrgba  hidde  backdrop-blur-sm z-20" : "absolute w-full h-full top-0 left-0 bg-blackrgba  hidden  backdrop-blur-sm z-20"
+      } onClick={AddClosetask}></div>
 
 
     </div>
@@ -118,3 +144,6 @@ function App() {
 }
 
 export default App
+
+
+
