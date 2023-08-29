@@ -4,18 +4,58 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome, faMusic, faRadio, faVideo, faPerson, faSignIn, faRocket, faList} from '@fortawesome/free-solid-svg-icons'
+import { faHome, faMusic, faRadio, faVideo, faPerson, faSignIn, faRocket, faList, faDeleteLeft, faRecycle, faTrash} from '@fortawesome/free-solid-svg-icons'
 
 
 function App() {
 
-/** for the from submit */
+
+/* THIS WHOLE FUNCTIONS IS FOR THE FORM  */
+  const [form,setform] = React.useState({
+       title : '',
+       description : '',
+       stats : ''
+
+  })
+
+  function HandleForm(event) {
+
+        setform(prev => {
+          return {
+            ...prev, [event.target.name] : event.target.value
+          }
+        })
+
+        
+  }
+
+  const [alltodo, setalltdo] = React.useState([])
+
+  function HandleTodo(params) {
+    let newTodoItem = {
+      title: form.title,
+      description: form.description,
+      stats : form.stats
+    }
+
+
+  let updatedTodoArr = [...alltodo]
+  updatedTodoArr.push(newTodoItem)
+  setalltdo(updatedTodoArr);
+}
+
+ 
+
+/** PREVENT FORM FRO AUTO RELOAD */
  function Submit(event) {
      event.preventDefault()
  }
 
 
- const [add, setadd] = React.useState(false)
+
+/* CONTROL MODAL, OVERLAY AND HELP CLOSE MODAL */////////////////////////////////////////
+
+const [add, setadd] = React.useState(false) 
 
  function AddClosetask(params) {
      setadd(prev => !prev)
@@ -72,15 +112,40 @@ function App() {
 
 
 
+           {/**TODO BOXES. THIS IS FOR THE TODO  BOXES */}
           
-          
-           <div className='flex flex-col mx-auto bg-red-90 mt-12 space-y-5 bg-red-80'>
-             <FontAwesomeIcon icon={faList}  className='h-20 mx-auto'/>
+           <div className='flex flex-col mx-auto bg-red-90 mt-12 space-y- bg-red-80'>
+             
+             <div className='mx-aut flex flex-col space-y-8 bg-gray-400 w-72 ml-  rounded-lg'>
 
-             <h1 className='mx-auto bg-white lg:w-96 text-center text-xl'>
-             You don't have any tasks registered yet.
-           Create tasks and organize your to-do items.
-             </h1>
+                <div>
+                  <h1>opeyemil</h1>
+                </div>
+
+                <div>
+                  <p>Akinbayo</p>
+                </div>
+
+                <div className='flex flex-row space-x-12 justify-between mx-auto'>
+                   <label className='rounded-full px- py- relative p-1 mb-3 pointer text'>
+                      <input className='bg-black rounded-full text-black z-50 ml-0.5' type="checkbox" name="" id="" />
+                      <span className='absolute top-0 left-0 rounded-full h-6 w-6 bg-gray-30 border border-black mt-0.5'></span>
+                   </label>
+
+                   <div>
+                    <h2>active</h2>
+                   </div>
+                  
+                   <div>
+                    <FontAwesomeIcon icon={faTrash} />
+                   </div>
+
+
+                </div>
+
+
+             </div>
+
            </div>
 
          
@@ -99,17 +164,35 @@ function App() {
           <h2 className='font-bold'>Add task</h2>
 
      
-          <label htmlFor="">Title</label>
-          <input className='rounded-lg' type="text" />
+          <label htmlFor="title">Title</label>
+          <input className='rounded-lg text-black'
+           type="text"
+           name='title'
+           id='title'
+           value={form.title}
+           onChange={HandleForm} />
 
-          <label htmlFor="">Description</label>
-          <textarea name="" id="" cols="30" rows="10" className='rounded-lg'/>
+          <label htmlFor="description">Description</label>
+          <textarea 
+          name="description"
+          id="description"
+          cols="30"
+          rows="10"
+          className='rounded-lg'
+          value={form.description}
+          onChange={HandleForm}/>
 
-          <label htmlFor="">Status</label>
-          <select name="" id="" className='rounded-lg'>
+
+          <label htmlFor="stats">Status</label>
+          <select name="stats"
+           id="stats"
+           value={form.stats}
+           onChange={HandleForm}
+           className='rounded-lg
+           '>
             <option value="">----</option>
-            <option value="">all task</option>
-            <option value="">completed</option>
+            <option value="all task">all task</option>
+            <option value="completed">completed</option>
 
           </select>
     
@@ -117,7 +200,7 @@ function App() {
 
           
         
-          <div class="flex justify-between bg-whit px-2 py-1 rounded-sm">
+          <div className="flex justify-between bg-whit px-2 py-1 rounded-sm">
             <button className='text-xl border border-purple-400 border-2 font-bold text-black px-2 py-1 rounded-lg hover:bg-purple-400'>Add task</button>
             <button className='text-xl bg-blue-400  px-2 py-1 rounded-lg border-2 hover:bg-white' onClick={AddClosetask}>close</button>
             
@@ -130,7 +213,7 @@ function App() {
       </section>
 
 
-      <div class={
+      <div className={
         add ? "absolute w-full h-full top-0 left-0 bg-blackrgba  hidde  backdrop-blur-sm z-20" : "absolute w-full h-full top-0 left-0 bg-blackrgba  hidden  backdrop-blur-sm z-20"
       } onClick={AddClosetask}></div>
 
@@ -147,3 +230,30 @@ export default App
 
 
 
+/**
+ *  const [alltodo, setalltdo] = React.useState(false)
+  const [newTitle, setNewTitle] = React.useState('')
+  const [newDescription, setnewDescription] = React.useState('')
+
+
+  <FontAwesomeIcon icon={faList}  className='h-20 mx-auto'/>
+
+             <h1 className='mx-auto bg-white lg:w-96 text-center text-xl'>
+             You don't have any tasks registered yet.
+           Create tasks and organize your to-do items.
+             </h1>
+
+
+
+             {
+              alltodo.map(
+                (item,index) => {
+                  return (
+                    <div>
+                       
+                    </div>
+                  )
+                }
+              )
+             }
+ */
