@@ -14,9 +14,22 @@ function App() {
   const [form,setform] = React.useState({
        title : '',
        description : '',
+       checkbox : true ,
        stats : ''
 
   })
+
+
+  const [checkingBox, setCheckingBox] = React.useState(false)
+  /** handles the single checkbox form */
+   
+  function HandleCheckbox(event) {
+      setCheckingBox(prev => !prev)
+  }
+
+
+
+  /** THIS FUNCTIONS COLLECTS ALL DATA AND VALUE FROM THE INPUT FORM */
 
   function HandleForm(event) {
 
@@ -29,19 +42,38 @@ function App() {
         
   }
 
+
+  /** THIS CREATE A TODO DIV AND HANDLES ITS FUNCTIONALITY */
+
   const [alltodo, setalltdo] = React.useState([])
+  const [errorMsg, seterrorMsg] = React.useState(false)
+  
 
   function HandleTodo(params) {
     let newTodoItem = {
-      title: form.title,
-      description: form.description,
+      title : form.title,
+      description : form.description,
       stats : form.stats
     }
 
+    const letters = /^[A-Za-z]+$/
+    const space = /\s/g
+    
 
-  let updatedTodoArr = [...alltodo]
-  updatedTodoArr.push(newTodoItem)
-  setalltdo(updatedTodoArr);
+    if (newTodoItem.title.match(letters) || newTodoItem.title.match(letters && space) && newTodoItem.description.match(letters ) || newTodoItem.description.match(letters && space )) {
+
+      let updatedTodoArr = [...alltodo]
+      updatedTodoArr.push(newTodoItem)
+      setalltdo(updatedTodoArr)
+
+       AddClosetask()
+
+    } else if ( newTodoItem.title == null || newTodoItem.description == '') {
+       seterrorMsg(prev => !prev)
+    }
+
+
+
 }
 
  
@@ -90,7 +122,7 @@ const [add, setadd] = React.useState(false)
 
 
 
-      <section className='bg-gray-90 lg:p-20 lg:mt-4 mt-10 '>
+      <section className='bg-gray-90 lg:p-16 lg:mt-1 mt-16 '>
         
       
           <div className='flex flex-row lg:w-3/4 mx-auto bg-green-90 w-2/ justify-center lg:space-x-96 space-x-16'>
@@ -114,37 +146,57 @@ const [add, setadd] = React.useState(false)
 
            {/**TODO BOXES. THIS IS FOR THE TODO  BOXES */}
           
-           <div className='flex flex-col mx-auto bg-red-90 mt-12 space-y- bg-red-80'>
+           <div className='flex flex-col space-y-4 lg:flex-row mx-auto bg-red-90 lg:mt-12 lg:space-x-3 bg-red-8 lg:space-y-0'>
+           {
+
+              alltodo.map(
+                (item,index) => {
+                  return (
+                    <div className={
+                      checkingBox ? 'mx-auto flex  flex-col space-y-3 bg-red-900 text-white shadow-2xl lg:w-96 rounded-xl lg:h-52 lg:mx-0 w-80 justify-around lg:p-0' : 'mx-auto flex  flex-col space-y-3 bg-gray-300 shadow-2xl lg:w-96 shadow-white text-red-700 rounded-xl lg:h-52 lg:mx-0 w-80 justify-around lg:p-0 '
+                    } key={index}>
+
+                    <div className='flex flex-col justify-content'>
+                      <h1 className='ml-8 text-2xl lg:mt-4 mt-3 justify-content m'>{item.title}</h1>
+    
+                    </div>
+    
+                    <div className=''>
+                    <p className='text-start bg-red-90 w-10/12 lg:w-11/12 mx-auto ml- lg:text-center justify-content'>{item.description}</p>
+                    </div>
+                    
+                   
+    
+                    <div className='flex flex-row space-x- justify-around ml- '>
+                       <label className='rounded-full px- py- relative p-1 mb-3 pointer text'>
+                          <input className='bg-black rounded-full text-black z-50 ml-1' type="checkbox" name="checkbox" id="" checked={checkingBox} onChange={HandleCheckbox}/>
+                          <span className={
+                            checkingBox ? 'absolute top-0 left-0 rounded-full h-7 w-7 bg-red-30 border-2 border-black mt-0.5' : 'absolute top-0 left-0 rounded-full h-7 w-7 bg-gray-300 border-2 border-black mt-0.5'
+                          }></span>
+    
+                       </label>
+    
+                       <div className='border-'>
+                        {
+                          checkingBox ? <h2 className='border-2 px-3 rounded-lg bg-white text-red-900'>completed</h2> : <h2 className='border-2 px-3 rounded-lg bg-red-900 text-white'>active</h2>
+                        }
+                       </div>
+                      
+                       <div>
+                        <FontAwesomeIcon icon={faTrash} className=''/>
+                       </div>
+    
+    
+                    </div>
+    
+                   
+    
+                 </div>
+                  )
+                }
+              )
+             }
              
-             <div className='mx-aut flex flex-col space-y-8 bg-gray-400 w-72 ml-  rounded-lg'>
-
-                <div>
-                  <h1>opeyemil</h1>
-                </div>
-
-                <div>
-                  <p>Akinbayo</p>
-                </div>
-
-                <div className='flex flex-row space-x-12 justify-between mx-auto'>
-                   <label className='rounded-full px- py- relative p-1 mb-3 pointer text'>
-                      <input className='bg-black rounded-full text-black z-50 ml-0.5' type="checkbox" name="" id="" />
-                      <span className='absolute top-0 left-0 rounded-full h-6 w-6 bg-gray-30 border border-black mt-0.5'></span>
-                   </label>
-
-                   <div>
-                    <h2>active</h2>
-                   </div>
-                  
-                   <div>
-                    <FontAwesomeIcon icon={faTrash} />
-                   </div>
-
-
-                </div>
-
-
-             </div>
 
            </div>
 
@@ -197,12 +249,18 @@ const [add, setadd] = React.useState(false)
           </select>
     
 
-
+          <div>
+            <p className={errorMsg ? 'block' : 'hidden'} onChange={HandleTodo}>the title cannot be left blank</p>
+          </div>
           
         
           <div className="flex justify-between bg-whit px-2 py-1 rounded-sm">
-            <button className='text-xl border border-purple-400 border-2 font-bold text-black px-2 py-1 rounded-lg hover:bg-purple-400'>Add task</button>
+            <button className='text-xl border border-purple-400 border-2 font-bold text-black px-2 py-1 rounded-lg hover:bg-purple-400' onClick={HandleTodo}>Add task</button>
             <button className='text-xl bg-blue-400  px-2 py-1 rounded-lg border-2 hover:bg-white' onClick={AddClosetask}>close</button>
+
+
+
+            
             
           </div>
 
@@ -227,6 +285,37 @@ const [add, setadd] = React.useState(false)
 }
 
 export default App
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -256,4 +345,56 @@ export default App
                 }
               )
              }
+
+
+             <div className='mx-aut flex flex-col space-y-8 bg-purple-400 w-72 ml-  rounded-lg'>
+
+                <div className='flex flex-col space-y'>
+                  <h1 className='ml-6 text-2xl mt-4'>opeyemil</h1>
+
+                  
+                </div>
+
+                <div>
+                <p className='ml-6 text-md'>Akinbayo</p>
+                </div>
+
+                <div className='flex flex-row space-x- justify-around ml-'>
+                   <label className='rounded-full px- py- relative p-1 mb-3 pointer text'>
+                      <input className='bg-black rounded-full text-black z-50 ml-0.5' type="checkbox" name="" id="" />
+                      <span className='absolute top-0 left-0 rounded-full h-6 w-6 bg-gray-30 border border-black mt-0.5'></span>
+
+                   </label>
+
+                   <div className='border-'>
+                    <h2 className='border-2 px-3 rounded-lg bg-blue-400'>active</h2>
+                   </div>
+                  
+                   <div>
+                    <FontAwesomeIcon icon={faTrash} className=''/>
+                   </div>
+
+
+                </div>
+
+               
+
+             </div>
+
+
+
+             if (form.title == letters ) {
+       let updatedTodoArr = [...alltodo]
+       updatedTodoArr.push(newTodoItem)
+       setalltdo(updatedTodoArr);
+    } else if (form.title == null || form.description == "") {
+        console.log('opeyemil')
+    }
+
+
+    let newTodoItem = {
+      title: form.title,
+      description: form.description,
+      stats : form.stats
+    }
  */
