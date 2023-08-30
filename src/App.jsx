@@ -10,22 +10,24 @@ import { faHome, faMusic, faRadio, faVideo, faPerson, faSignIn, faRocket, faList
 function App() {
 
 
+  
+
 /* THIS WHOLE FUNCTIONS IS FOR THE FORM  */
   const [form,setform] = React.useState({
        title : '',
        description : '',
-       checkbox : true ,
-       stats : ''
+       stats : '',
 
   })
 
-
-  const [checkingBox, setCheckingBox] = React.useState(false)
-  /** handles the single checkbox form */
+  
    
+  /** handles the single checkbox form */
+  const [checkingBox, setCheckingBox] = React.useState(false)
+
   function HandleCheckbox(event) {
       setCheckingBox(prev => !prev)
-  }
+  } 
 
 
 
@@ -34,6 +36,7 @@ function App() {
   function HandleForm(event) {
 
         setform(prev => {
+          
           return {
             ...prev, [event.target.name] : event.target.value
           }
@@ -48,13 +51,15 @@ function App() {
   const [alltodo, setalltdo] = React.useState([])
   const [errorMsg, seterrorMsg] = React.useState(false)
   
+  
 
   function HandleTodo(params) {
     let newTodoItem = {
       title : form.title,
       description : form.description,
-      stats : form.stats
+      stats : form.stats,
     }
+    
 
     const letters = /^[A-Za-z]+$/
     const space = /\s/g
@@ -150,10 +155,10 @@ const [add, setadd] = React.useState(false)
            {
 
               alltodo.map(
-                (item,index) => {
+                (item,index,) => {
                   return (
                     <div className={
-                      checkingBox ? 'mx-auto flex  flex-col space-y-3 bg-red-900 text-white shadow-2xl lg:w-96 rounded-xl lg:h-52 lg:mx-0 w-80 justify-around lg:p-0' : 'mx-auto flex  flex-col space-y-3 bg-gray-300 shadow-2xl lg:w-96 shadow-white text-red-700 rounded-xl lg:h-52 lg:mx-0 w-80 justify-around lg:p-0 '
+                      checkingBox ? 'mx-auto flex  flex-col space-y-3 bg-red-900 text-white shadow-2xl lg:w-96 rounded-xl lg:h-52 lg:mx-0 w-80 justify-around lg:p-0 h-40' : 'mx-auto flex  flex-col space-y-3 bg-gray-300 shadow-2xl lg:w-96 shadow-white text-red-700 rounded-xl lg:h-52 lg:mx-0 w-80 justify-around lg:p-0 h-40'
                     } key={index}>
 
                     <div className='flex flex-col justify-content'>
@@ -162,23 +167,23 @@ const [add, setadd] = React.useState(false)
                     </div>
     
                     <div className=''>
-                    <p className='text-start bg-red-90 w-10/12 lg:w-11/12 mx-auto ml- lg:text-center justify-content'>{item.description}</p>
+                    <p className='text-sm text-start bg-red-90 w-10/12 lg:w-11/12 mx-auto ml- lg:text-center justify-content'>{item.description}</p>
                     </div>
                     
                    
     
                     <div className='flex flex-row space-x- justify-around ml- '>
                        <label className='rounded-full px- py- relative p-1 mb-3 pointer text'>
-                          <input className='bg-black rounded-full text-black z-50 ml-1' type="checkbox" name="checkbox" id="" checked={checkingBox} onChange={HandleCheckbox}/>
+                          <input className='bg-black rounded-full text-black z-50 ml-1' type="checkbox" name="checkbox" id="" checked={checkingBox} onChange={HandleCheckbox} />
                           <span className={
-                            checkingBox ? 'absolute top-0 left-0 rounded-full h-7 w-7 bg-red-30 border-2 border-black mt-0.5' : 'absolute top-0 left-0 rounded-full h-7 w-7 bg-gray-300 border-2 border-black mt-0.5'
+                          checkingBox ? 'absolute top-0 left-0 rounded-full h-7 w-7 bg-red-30 border-2 border-black mt-0.5' : 'absolute top-0 left-0 rounded-full h-7 w-7 bg-gray-300 border-2 border-black mt-0.5'
                           }></span>
     
                        </label>
     
                        <div className='border-'>
                         {
-                          checkingBox ? <h2 className='border-2 px-3 rounded-lg bg-white text-red-900'>completed</h2> : <h2 className='border-2 px-3 rounded-lg bg-red-900 text-white'>active</h2>
+                         checkingBox ? <h2 className='border-2 px-3 rounded-lg bg-white text-red-900'>completed</h2> : <h2 className='border-2 px-3 rounded-lg bg-red-900 text-white'>active</h2>
                         }
                        </div>
                       
