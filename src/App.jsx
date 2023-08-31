@@ -5,6 +5,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faMusic, faRadio, faVideo, faPerson, faSignIn, faRocket, faList, faDeleteLeft, faRecycle, faTrash} from '@fortawesome/free-solid-svg-icons'
+//import {nanoid} from 'nanoid'
 
 
 function App() {
@@ -17,7 +18,6 @@ function App() {
        title : '',
        description : '',
        stats : '',
-
   })
 
   
@@ -25,7 +25,7 @@ function App() {
   /** handles the single checkbox form */
   const [checkingBox, setCheckingBox] = React.useState(false)
 
-  function HandleCheckbox(event) {
+  function HandleCheckbox(item) {
       setCheckingBox(prev => !prev)
   } 
 
@@ -46,19 +46,39 @@ function App() {
   }
 
 
+  
+
+
   /** THIS CREATE A TODO DIV AND HANDLES ITS FUNCTIONALITY */
 
   const [alltodo, setalltdo] = React.useState([])
   const [errorMsg, seterrorMsg] = React.useState(false)
   
-  
 
-  function HandleTodo(params) {
+ 
+ /* DELETE functions */
+ const handleDeleteTodo = (item) => {
+     let del = [...alltodo]
+     del.splice(item);
+     setalltdo(del)
+     console.log('one div gone')
+ }
+
+
+
+ const [count, setCount] = React.useState(0)
+ 
+  function HandleTodo(item) {
+    
+    setCount(prev => prev + 1)
+
     let newTodoItem = {
       title : form.title,
       description : form.description,
       stats : form.stats,
+      id : count
     }
+    
     
 
     const letters = /^[A-Za-z]+$/
@@ -66,13 +86,17 @@ function App() {
     
 
     if (newTodoItem.title.match(letters) || newTodoItem.title.match(letters && space) && newTodoItem.description.match(letters ) || newTodoItem.description.match(letters && space )) {
+    
+      
+     
 
-      let updatedTodoArr = [...alltodo]
+     let updatedTodoArr = [...alltodo]
       updatedTodoArr.push(newTodoItem)
       setalltdo(updatedTodoArr)
+      AddClosetask()
 
-       AddClosetask()
-
+      console.log(alltodo)
+    
     } else if ( newTodoItem.title == null || newTodoItem.description == '') {
        seterrorMsg(prev => !prev)
     }
@@ -81,7 +105,7 @@ function App() {
 
 }
 
- 
+
 
 /** PREVENT FORM FRO AUTO RELOAD */
  function Submit(event) {
@@ -151,15 +175,14 @@ const [add, setadd] = React.useState(false)
 
            {/**TODO BOXES. THIS IS FOR THE TODO  BOXES */}
           
-           <div className='flex flex-col space-y-4 lg:flex-row mx-auto bg-red-90 lg:mt-12 lg:space-x-3 bg-red-8 lg:space-y-0'>
+           <div className='flex flex-col space-y-4 lg:flex-row mx-auto bg-red-90 lg:mt-12 lg:space-x-3 bg-red-8 lg:space-y-0 flex-wra'>
            {
-
               alltodo.map(
-                (item,index,) => {
+                (item) => {
                   return (
                     <div className={
                       checkingBox ? 'mx-auto flex  flex-col space-y-3 bg-red-900 text-white shadow-2xl lg:w-96 rounded-xl lg:h-52 lg:mx-0 w-80 justify-around lg:p-0 h-40' : 'mx-auto flex  flex-col space-y-3 bg-gray-300 shadow-2xl lg:w-96 shadow-white text-red-700 rounded-xl lg:h-52 lg:mx-0 w-80 justify-around lg:p-0 h-40'
-                    } key={index}>
+                    } key={item.id}>
 
                     <div className='flex flex-col justify-content'>
                       <h1 className='ml-8 text-2xl lg:mt-4 mt-3 justify-content m'>{item.title}</h1>
@@ -174,7 +197,7 @@ const [add, setadd] = React.useState(false)
     
                     <div className='flex flex-row space-x- justify-around ml- '>
                        <label className='rounded-full px- py- relative p-1 mb-3 pointer text'>
-                          <input className='bg-black rounded-full text-black z-50 ml-1' type="checkbox" name="checkbox" id="" checked={checkingBox} onChange={HandleCheckbox} />
+                          <input className='bg-black rounded-full text-black z-50 ml-1' type="checkbox" name="checkbox" id="" checked={checkingBox} onChange={HandleCheckbox} key={item.id}/>
                           <span className={
                           checkingBox ? 'absolute top-0 left-0 rounded-full h-7 w-7 bg-red-30 border-2 border-black mt-0.5' : 'absolute top-0 left-0 rounded-full h-7 w-7 bg-gray-300 border-2 border-black mt-0.5'
                           }></span>
@@ -187,9 +210,9 @@ const [add, setadd] = React.useState(false)
                         }
                        </div>
                       
-                       <div>
-                        <FontAwesomeIcon icon={faTrash} className=''/>
-                       </div>
+                       <button>
+                        <FontAwesomeIcon icon={faTrash} className='' onClick={()=>handleDeleteTodo(item.id)} key={item.id}/>
+                       </button>
     
     
                     </div>
