@@ -5,7 +5,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faMusic, faRadio, faVideo, faPerson, faSignIn, faRocket, faList, faDeleteLeft, faRecycle, faTrash} from '@fortawesome/free-solid-svg-icons'
-//import {nanoid} from 'nanoid'
+import {nanoid} from 'nanoid'
 
 
 function App() {
@@ -18,18 +18,68 @@ function App() {
        title : '',
        description : '',
        stats : '',
+  
   })
 
   
    
-  /** handles the single checkbox form */
-  const [checkingBox, setCheckingBox] = React.useState(false)
-
-  function HandleCheckbox(item) {
-      setCheckingBox(prev => !prev)
-  } 
+  /** handles the single checkbox form  */
+  
+  const [checkingBox, setCheckingBox] = React.useState(true)
 
 
+ /* function HandleCheckbox(item) {
+    let updatedTodoArr = []
+
+    alltodo.map(item => {
+      if (item.checked = item) {
+        item.checked = !item.checked
+      }
+      updatedTodoArr.push(item)
+  
+    })
+    setalltdo(updatedTodoArr)
+  }  
+
+  function HandleCheckbox(params) {
+     setCheckingBox(prev => !prev)
+     console.log('opeyemil')
+  } */
+  
+
+  
+
+  // HANDLES MU8LTIPLE CHECKBOX FORM 
+ /*const [checkingBox, setCheckingBox] = useState(
+    new Array(alltodo.length).fill(false)
+  )   */
+
+ /* function HandleCheckbox(position) {
+      const updateCheckState = checkingBox.map((item)=>
+        item === position ? !item : item
+       // newTodoItem.id === position ? item : !item
+      ) 
+
+      setCheckingBox(updateCheckState)
+
+      console.log('make this bastard work')
+  }  */
+
+  const [alltodo, setalltdo] = React.useState([])
+  const [errorMsg, seterrorMsg] = React.useState(false)
+
+  function HandleCheckbox(id) {
+      setalltdo((prev) => {
+        prev.map((todo) => 
+          {
+            todo.id === id ? {...todo, checked: !todo.checked} : todo
+          }
+        )
+      })
+  }
+
+
+  
 
   /** THIS FUNCTIONS COLLECTS ALL DATA AND VALUE FROM THE INPUT FORM */
 
@@ -46,13 +96,9 @@ function App() {
   }
 
 
-  
-
-
   /** THIS CREATE A TODO DIV AND HANDLES ITS FUNCTIONALITY */
 
-  const [alltodo, setalltdo] = React.useState([])
-  const [errorMsg, seterrorMsg] = React.useState(false)
+  
   
 
  
@@ -66,44 +112,50 @@ function App() {
 
 
 
- const [count, setCount] = React.useState(0)
+
+
+ //const [count, setCount] = React.useState(0)
+ 
  
   function HandleTodo(item) {
     
-    setCount(prev => prev + 1)
-
     let newTodoItem = {
       title : form.title,
       description : form.description,
       stats : form.stats,
-      id : count
-    }
+      checked : false,
+      id : nanoid()
+    } 
     
     
-
     const letters = /^[A-Za-z]+$/
     const space = /\s/g
     
 
-    if (newTodoItem.title.match(letters) || newTodoItem.title.match(letters && space) && newTodoItem.description.match(letters ) || newTodoItem.description.match(letters && space )) {
+   if (newTodoItem.title.match(letters) || newTodoItem.title.match(letters && space) && newTodoItem.description.match(letters ) || newTodoItem.description.match(letters && space )) {
     
-      
-     
-
      let updatedTodoArr = [...alltodo]
       updatedTodoArr.push(newTodoItem)
       setalltdo(updatedTodoArr)
-      AddClosetask()
+
+      setalltdo([newTodoItem, ...alltodo])
+      
+      AddClosetask() 
 
       console.log(alltodo)
     
     } else if ( newTodoItem.title == null || newTodoItem.description == '') {
        seterrorMsg(prev => !prev)
-    }
+    } 
 
+    
 
 
 }
+
+
+
+
 
 
 
@@ -158,7 +210,7 @@ const [add, setadd] = React.useState(false)
 
           <div className='flex justify-star bg-yellow-90 flex-row space-x-2'>
           <h1 className='lg:text-xl lg:mt-0 mt-1'>All task</h1>
-          <p className='py-1 px-3 rounded-full bg-black text-white '>0</p>
+          <p className='py-1 px-3 rounded-full bg-black text-white '>{alltodo.length}</p>
           </div>
 
          <div className='flex flex-row justify-end bg-blue-90 ml-9 space-x-4 font-thin'>
@@ -181,7 +233,7 @@ const [add, setadd] = React.useState(false)
                 (item) => {
                   return (
                     <div className={
-                      checkingBox ? 'mx-auto flex  flex-col space-y-3 bg-red-900 text-white shadow-2xl lg:w-96 rounded-xl lg:h-52 lg:mx-0 w-80 justify-around lg:p-0 h-40' : 'mx-auto flex  flex-col space-y-3 bg-gray-300 shadow-2xl lg:w-96 shadow-white text-red-700 rounded-xl lg:h-52 lg:mx-0 w-80 justify-around lg:p-0 h-40'
+                      checkingBox ? 'mx-auto flex  flex-col space-y-3 bg-red-900 text-white shadow-2xl lg:w-96 rounded-xl lg:h-52 lg:mx-0 w-80 justify-around lg:p-0 h-40' : 'mx-auto flex  flex-col space-y-3 bg-gray-300  shadow-2xl lg:w-96 shadow-white text-red-700 rounded-xl lg:h-52 lg:mx-0 w-80 justify-around lg:p-0 h-40'
                     } key={item.id}>
 
                     <div className='flex flex-col justify-content'>
@@ -197,7 +249,7 @@ const [add, setadd] = React.useState(false)
     
                     <div className='flex flex-row space-x- justify-around ml- '>
                        <label className='rounded-full px- py- relative p-1 mb-3 pointer text'>
-                          <input className='bg-black rounded-full text-black z-50 ml-1' type="checkbox" name="checkbox" id="" checked={checkingBox} onChange={HandleCheckbox} key={item.id}/>
+                          <input className='bg-black rounded-full text-black z-50 ml-1' type="checkbox" name="checkbox" id="" checked={todo.checked} onChange={()=> HandleCheckbox(todo.id)} />
                           <span className={
                           checkingBox ? 'absolute top-0 left-0 rounded-full h-7 w-7 bg-red-30 border-2 border-black mt-0.5' : 'absolute top-0 left-0 rounded-full h-7 w-7 bg-gray-300 border-2 border-black mt-0.5'
                           }></span>
@@ -211,7 +263,7 @@ const [add, setadd] = React.useState(false)
                        </div>
                       
                        <button>
-                        <FontAwesomeIcon icon={faTrash} className='' onClick={()=>handleDeleteTodo(item.id)} key={item.id}/>
+                        <FontAwesomeIcon icon={faTrash} className='' onClick={()=>handleDeleteTodo(item.id)} />
                        </button>
     
     
